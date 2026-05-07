@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="3D PixelArt Demo"
+run/main_scene="uid://dfxrbd0lnsitc"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
 

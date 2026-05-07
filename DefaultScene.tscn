@@ -1,16 +1,42 @@
 [gd_scene format=3 uid="uid://dfxrbd0lnsitc"]
 
+[ext_resource type="Script" uid="uid://bvsjc7c2u5f" path="res://render/sample_effect/sample_effect.gd" id="1_hxmse"]
+[ext_resource type="Script" uid="uid://bals4fpquank2" path="res://render/pixelate/pixelate.gd" id="2_xmalu"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_n102l"]
+ground_color = Color(0.51198095, 0.65087014, 0.8765375, 1)
+
+[sub_resource type="Sky" id="Sky_hxmse"]
+sky_material = SubResource("PhysicalSkyMaterial_n102l")
+
 [sub_resource type="Environment" id="Environment_3lo20"]
+background_mode = 2
+sky = SubResource("Sky_hxmse")
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_n102l"]
 
-[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3lo20"]
+[sub_resource type="CompositorEffect" id="CompositorEffect_884rh"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = true
+script = ExtResource("1_hxmse")
+metadata/_custom_type_script = "uid://bvsjc7c2u5f"
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_n102l"]
-size = Vector3(60, 2, 60)
+[sub_resource type="CompositorEffect" id="CompositorEffect_hxmse"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = true
+script = ExtResource("2_xmalu")
+metadata/_custom_type_script = "uid://bals4fpquank2"
 
-[sub_resource type="BoxMesh" id="BoxMesh_hxmse"]
-size = Vector3(60, 2, 60)
+[sub_resource type="Compositor" id="Compositor_xmalu"]
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_884rh"), SubResource("CompositorEffect_hxmse")])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3lo20"]
 albedo_color = Color(0.36078432, 1, 1, 1)
@@ -24,24 +50,30 @@ albedo_color = Color(1, 0.4392157, 0.34509805, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_n102l"]
 material = SubResource("StandardMaterial3D_n102l")
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xmalu"]
+albedo_color = Color(0.7882353, 0.50980395, 1, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_884rh"]
+material = SubResource("StandardMaterial3D_xmalu")
+
+[sub_resource type="BoxMesh" id="BoxMesh_hxmse"]
+size = Vector3(3, 2, 1.975)
+
 [node name="Node3D" type="Node3D" unique_id=1416616789]
 
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=692927340]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
 [node name="Camera3D" type="Camera3D" parent="." unique_id=485001622]
-transform = Transform3D(0.9723537, -0.09237599, 0.21446498, 0.01148524, 0.9362341, 0.3511894, -0.23323089, -0.3390171, 0.9114114, -0.14477646, 0.962265, 1.5050781)
+transform = Transform3D(0.8862036, 0.23164803, -0.40122613, 0, 0.8660254, 0.5, 0.46329606, -0.4431018, 0.76747483, -1.016206, 1.3047087, 1.5065117)
+projection = 1
+size = 2.818
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=24356344]
 environment = SubResource("Environment_3lo20")
 camera_attributes = SubResource("CameraAttributesPhysical_n102l")
-
-[node name="Ground" type="StaticBody3D" parent="." unique_id=1651478911]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
-physics_material_override = SubResource("PhysicsMaterial_3lo20")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=333840573]
-shape = SubResource("BoxShape3D_n102l")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1512596538]
-mesh = SubResource("BoxMesh_hxmse")
+compositor = SubResource("Compositor_xmalu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1766389597]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
@@ -50,3 +82,11 @@ mesh = SubResource("SphereMesh_3lo20")
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1623906327]
 transform = Transform3D(0.40209964, 0, 0.29717985, 0, 0.5, 0, -0.29717985, 0, 0.40209964, -0.9035357, 0.25, 0.15743566)
 mesh = SubResource("BoxMesh_n102l")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1962915771]
+transform = Transform3D(0.35659462, 0, -0.3504857, 0, 0.5, 0, 0.3504857, 0, 0.35659462, 0.774693, 0.25, 0.15743566)
+mesh = SubResource("CylinderMesh_884rh")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1512596538]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+mesh = SubResource("BoxMesh_hxmse")
