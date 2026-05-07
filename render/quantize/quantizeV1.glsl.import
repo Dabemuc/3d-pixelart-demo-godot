@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://cluirn1sq1adr"
+path="res://.godot/imported/quantizeV1.glsl-745bb39181ddf80aa73083b8538450ba.res"
+
+[deps]
+
+source_file="res://render/quantize/quantizeV1.glsl"
+dest_files=["res://.godot/imported/quantizeV1.glsl-745bb39181ddf80aa73083b8538450ba.res"]
+
+[params]
+

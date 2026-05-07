@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://dfxrbd0lnsitc"]
 
 [ext_resource type="Script" uid="uid://bvsjc7c2u5f" path="res://render/sample_effect/sample_effect.gd" id="1_hxmse"]
-[ext_resource type="Script" uid="uid://b4wcrn72ist54" path="res://render/pixelate/pixelateV1.gd" id="2_hxmse"]
+[ext_resource type="Script" uid="uid://cp6aqe56ut45f" path="res://render/quantize/quantizeV1.gd" id="2_hxmse"]
+[ext_resource type="Script" uid="uid://b4wcrn72ist54" path="res://render/pixelate/pixelateV1.gd" id="3_xmalu"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_n102l"]
 ground_color = Color(0.51198095, 0.65087014, 0.8765375, 1)
@@ -25,7 +26,7 @@ needs_normal_roughness = true
 script = ExtResource("1_hxmse")
 metadata/_custom_type_script = "uid://bvsjc7c2u5f"
 
-[sub_resource type="CompositorEffect" id="CompositorEffect_hxmse"]
+[sub_resource type="CompositorEffect" id="CompositorEffect_fmr7c"]
 resource_local_to_scene = false
 resource_name = ""
 enabled = true
@@ -33,11 +34,20 @@ effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_hxmse")
-palette = "aap_64"
+metadata/_custom_type_script = "uid://cp6aqe56ut45f"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_d015g"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("3_xmalu")
 metadata/_custom_type_script = "uid://b4wcrn72ist54"
 
 [sub_resource type="Compositor" id="Compositor_xmalu"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_884rh"), SubResource("CompositorEffect_hxmse")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_884rh"), SubResource("CompositorEffect_fmr7c"), SubResource("CompositorEffect_d015g")])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_884rh"]
 albedo_color = Color(0.13333334, 1, 0, 1)
@@ -58,7 +68,7 @@ albedo_color = Color(1, 0.4392157, 0.34509805, 1)
 material = SubResource("StandardMaterial3D_n102l")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xmalu"]
-albedo_color = Color(0.7882353, 0.50980395, 1, 1)
+albedo_color = Color(0.7647059, 0, 0, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_884rh"]
 material = SubResource("StandardMaterial3D_xmalu")
