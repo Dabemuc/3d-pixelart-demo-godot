@@ -7,6 +7,9 @@ var shader: RID
 var pipeline: RID
 var nearest_sampler: RID
 
+@export_range(0.0, 1.0) var outline_mask_threshold: float = 0.49
+@export_range(0.0, 1.0) var crease_mask_threshold: float = 0.49
+
 func _init() -> void:
 	needs_normal_roughness = true
 
@@ -61,9 +64,14 @@ func _render_callback(_callback_type: int, render_data: RenderData) -> void:
 	normal_out_uniform.binding = 5
 	normal_out_uniform.add_id(PixelArtBuffers.ensure_normal(rd))
 
+	var mask_out_uniform := RDUniform.new()
+	mask_out_uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
+	mask_out_uniform.binding = 6
+	mask_out_uniform.add_id(PixelArtBuffers.ensure_mask(rd))
+
 	var bindings: Array[RDUniform] = [
 		color_in_uniform, depth_uniform, normal_uniform,
-		color_out_uniform, depth_out_uniform, normal_out_uniform,
+		color_out_uniform, depth_out_uniform, normal_out_uniform, mask_out_uniform,
 	]
 	var groups := Vector3i(
 		(pixel_art_size.x - 1) / 8 + 1,
@@ -73,8 +81,16 @@ func _render_callback(_callback_type: int, render_data: RenderData) -> void:
 	var uniform_set := rd.uniform_set_create(bindings, shader, 0)
 	var compute_list := rd.compute_list_begin()
 
+	var push_constants := PackedByteArray()
+	push_constants.resize(16)
+	push_constants.encode_float(0, outline_mask_threshold)
+	push_constants.encode_float(4, crease_mask_threshold)
+	push_constants.encode_float(8, 0.0)
+	push_constants.encode_float(12, 0.0)
+
 	rd.compute_list_bind_compute_pipeline(compute_list, pipeline)
 	rd.compute_list_bind_uniform_set(compute_list, uniform_set, 0)
+	rd.compute_list_set_push_constant(compute_list, push_constants, push_constants.size())
 	rd.compute_list_dispatch(compute_list, groups.x, groups.y, groups.z)
 	rd.compute_list_end()
 

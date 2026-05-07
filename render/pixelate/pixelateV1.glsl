@@ -12,6 +12,15 @@ layout(set = 0, binding = 2) uniform sampler2D full_res_normal;
 layout(rgba16f, set = 0, binding = 3) writeonly uniform image2D pixel_art_color;
 layout(r32f,   set = 0, binding = 4) writeonly uniform image2D pixel_art_depth;
 layout(rgba16f, set = 0, binding = 5) writeonly uniform image2D pixel_art_normal;
+// R = silhouette mask, G = crease mask (1.0 = apply, 0.0 = skip)
+layout(rg8,    set = 0, binding = 6) writeonly uniform image2D pixel_art_mask;
+
+layout(push_constant) uniform push_constants {
+	float outline_mask_threshold;
+	float crease_mask_threshold;
+	float _pad0;
+	float _pad1;
+} parameters;
 
 void main() {
 	ivec2 pixel_art_size = imageSize(pixel_art_color);
@@ -32,7 +41,13 @@ void main() {
 	float depth = texture(full_res_depth, uv_norm).r;
 	imageStore(pixel_art_depth, uv, vec4(depth, 0.0, 0.0, 1.0));
 
-	// Normal — stored as [0,1] xyz, remap to [-1,1] and normalize
-	vec3 normal = normalize(texture(full_res_normal, uv_norm).xyz * 2.0 - 1.0);
+	// Normal — stored as [0,1] xyz, remap to [-1,1] and normalize; alpha is roughness
+	vec4 normal_roughness = texture(full_res_normal, uv_norm);
+	vec3 normal = normalize(normal_roughness.xyz * 2.0 - 1.0);
 	imageStore(pixel_art_normal, uv, vec4(normal, 1.0));
+
+	// R = silhouette outline mask, G = crease highlight mask (set roughness to 1.0 to opt out of both)
+	float outline_mask = (normal_roughness.a >= parameters.outline_mask_threshold) ? 0.0 : 1.0;
+	float crease_mask  = (normal_roughness.a >= parameters.crease_mask_threshold)  ? 0.0 : 1.0;
+	imageStore(pixel_art_mask, uv, vec4(outline_mask, crease_mask, 0.0, 1.0));
 }

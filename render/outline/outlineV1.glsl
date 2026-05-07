@@ -8,16 +8,23 @@ layout(push_constant) uniform push_constants {
 	float outline_strength; // how much to darken edge pixels [0, 1]
 	float normal_bias;      // min normal difference to count as a crease
 	float crease_strength;  // how much to brighten crease pixels [0, 1]
+	uint  debug_show_mask;  // 1 = visualize mask buffer as grayscale
+	uint  _pad0;
+	uint  _pad1;
+	uint  _pad2;
 } parameters;
 
 layout(rgba16f, set = 0, binding = 0) uniform image2D pixel_art_color;
 layout(r32f,    set = 0, binding = 1) readonly uniform image2D pixel_art_depth;
 layout(rgba16f, set = 0, binding = 2) readonly uniform image2D pixel_art_normal;
+layout(rg8,     set = 0, binding = 3) readonly uniform image2D pixel_art_mask;
 
 const ivec2 NEIGHBORS[4] = ivec2[](ivec2(1, 0), ivec2(-1, 0), ivec2(0, 1), ivec2(0, -1));
 
 bool neighbor_creates_silhouette(float center_depth, ivec2 uv, ivec2 size) {
 	if (uv.x < 0 || uv.x >= size.x || uv.y < 0 || uv.y >= size.y)
+		return false;
+	if (imageLoad(pixel_art_mask, uv).r < 0.5)
 		return false;
 	float neighbor_depth = imageLoad(pixel_art_depth, uv).r;
 	// Directional check: only darken the closer (foreground) pixel.
@@ -27,6 +34,8 @@ bool neighbor_creates_silhouette(float center_depth, ivec2 uv, ivec2 size) {
 
 bool neighbor_creates_crease(vec3 center_normal, float center_depth, ivec2 uv, ivec2 size) {
 	if (uv.x < 0 || uv.x >= size.x || uv.y < 0 || uv.y >= size.y)
+		return false;
+	if (imageLoad(pixel_art_mask, uv).g < 0.5)
 		return false;
 
 	// Skip if the depth difference is too large — that's a silhouette, not a crease
@@ -48,6 +57,19 @@ void main() {
 	if (uv.x >= size.x || uv.y >= size.y)
 		return;
 
+	vec2 mask = imageLoad(pixel_art_mask, uv).rg;
+
+	if (parameters.debug_show_mask == 1u) {
+		imageStore(pixel_art_color, uv, vec4(mask.r, mask.g, 0.0, 1.0));
+		return;
+	}
+
+	bool outline_enabled = mask.r >= 0.5;
+	bool crease_enabled  = mask.g >= 0.5;
+
+	if (!outline_enabled && !crease_enabled)
+		return;
+
 	float center_depth  = imageLoad(pixel_art_depth, uv).r;
 	vec3  center_normal = imageLoad(pixel_art_normal, uv).rgb;
 
@@ -56,9 +78,9 @@ void main() {
 
 	for (int i = 0; i < 4; i++) {
 		ivec2 n = uv + NEIGHBORS[i];
-		if (!is_silhouette && neighbor_creates_silhouette(center_depth, n, size))
+		if (outline_enabled && !is_silhouette && neighbor_creates_silhouette(center_depth, n, size))
 			is_silhouette = true;
-		if (!is_crease && neighbor_creates_crease(center_normal, center_depth, n, size))
+		if (crease_enabled && !is_crease && neighbor_creates_crease(center_normal, center_depth, n, size))
 			is_crease = true;
 	}
 
