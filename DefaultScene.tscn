@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://dfxrbd0lnsitc"]
 
 [ext_resource type="Script" uid="uid://bvsjc7c2u5f" path="res://render/sample_effect/sample_effect.gd" id="1_hxmse"]
+[ext_resource type="Script" uid="uid://b4wcrn72ist54" path="res://render/pixelate/pixelateV1.gd" id="2_884rh"]
 [ext_resource type="Script" uid="uid://cp6aqe56ut45f" path="res://render/quantize/quantizeV1.gd" id="2_hxmse"]
-[ext_resource type="Script" uid="uid://bals4fpquank2" path="res://render/pixelate/pixelateV0.gd" id="2_xmalu"]
 [ext_resource type="Script" uid="uid://w01nnskp4ys0" path="res://render/upscale/upscaleV1.gd" id="4_884rh"]
+[ext_resource type="Script" uid="uid://7pnr6e4b3n6v" path="res://render/outline/outlineV1.gd" id="5_fmr7c"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_n102l"]
-ground_color = Color(0.51198095, 0.65087014, 0.8765375, 1)
+ground_color = Color(0.8898228, 0.5524107, 0.3362081, 1)
 
 [sub_resource type="Sky" id="Sky_hxmse"]
 sky_material = SubResource("PhysicalSkyMaterial_n102l")
@@ -25,6 +26,7 @@ effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = true
 script = ExtResource("1_hxmse")
+mode = 2
 metadata/_custom_type_script = "uid://bvsjc7c2u5f"
 
 [sub_resource type="CompositorEffect" id="CompositorEffect_fmr7c"]
@@ -34,8 +36,8 @@ enabled = true
 effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = true
-script = ExtResource("2_xmalu")
-metadata/_custom_type_script = "uid://bals4fpquank2"
+script = ExtResource("2_884rh")
+metadata/_custom_type_script = "uid://b4wcrn72ist54"
 
 [sub_resource type="CompositorEffect" id="CompositorEffect_d015g"]
 resource_local_to_scene = false
@@ -45,12 +47,26 @@ effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_hxmse")
+palette = "resurrect_64"
 metadata/_custom_type_script = "uid://cp6aqe56ut45f"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_8nkcw"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("5_fmr7c")
+depth_bias = 0.008
+normal_bias = 0.99
+crease_strength = 0.313
+metadata/_custom_type_script = "uid://7pnr6e4b3n6v"
 
 [sub_resource type="CompositorEffect" id="CompositorEffect_umi03"]
 resource_local_to_scene = false
 resource_name = ""
-enabled = false
+enabled = true
 effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
@@ -58,7 +74,7 @@ script = ExtResource("4_884rh")
 metadata/_custom_type_script = "uid://w01nnskp4ys0"
 
 [sub_resource type="Compositor" id="Compositor_xmalu"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_884rh"), SubResource("CompositorEffect_fmr7c"), SubResource("CompositorEffect_d015g"), SubResource("CompositorEffect_umi03")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_884rh"), SubResource("CompositorEffect_fmr7c"), SubResource("CompositorEffect_d015g"), SubResource("CompositorEffect_8nkcw"), SubResource("CompositorEffect_umi03")])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_884rh"]
 albedo_color = Color(0.13333334, 1, 0, 1)
@@ -79,13 +95,13 @@ albedo_color = Color(1, 0.4392157, 0.34509805, 1)
 material = SubResource("StandardMaterial3D_n102l")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xmalu"]
-albedo_color = Color(0.7647059, 0, 0, 1)
+albedo_color = Color(0.7059394, 2.23808e-06, 2.8878452e-07, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_884rh"]
 material = SubResource("StandardMaterial3D_xmalu")
 
 [sub_resource type="BoxMesh" id="BoxMesh_hxmse"]
-size = Vector3(3, 2, 1.975)
+size = Vector3(3, 0.5, 1.975)
 
 [node name="Node3D" type="Node3D" unique_id=1416616789]
 
@@ -94,7 +110,7 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=485001622]
-transform = Transform3D(-0.91201997, 0.205073, -0.35519677, 0, 0.8660254, 0.5, 0.41014603, 0.45600998, -0.7898324, -1.016206, 1.3047087, -2.1282196)
+transform = Transform3D(-0.98672, -0.08121521, 0.14066884, -1.0856451e-08, 0.8660254, 0.50000006, -0.16243039, 0.49336004, -0.85452455, 0.7974759, 2.6342525, -4.368937)
 projection = 1
 size = 2.818
 far = 221.74
@@ -113,7 +129,31 @@ transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.07666445, 0.25, -0.42
 mesh = SubResource("SphereMesh_3lo20")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1623906327]
-transform = Transform3D(0.40209964, 0, 0.29717985, 0, 0.5, 0, -0.29717985, 0, 0.40209964, -0.9035357, 0.25, 0.005009651)
+transform = Transform3D(0.4562351, 0, 0.2045714, 0, 0.5, 0, -0.2045714, 0, 0.4562351, -0.9035357, 0.25, 0.005009651)
+mesh = SubResource("BoxMesh_n102l")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="." unique_id=2087744543]
+transform = Transform3D(0.22811759, 0, 0.10228572, 0, 0.25, 0, -0.10228572, 0, 0.22811759, -1.0461683, 0.125, -0.33330137)
+mesh = SubResource("BoxMesh_n102l")
+
+[node name="MeshInstance3D7" type="MeshInstance3D" parent="." unique_id=1111618853]
+transform = Transform3D(0.13687056, 0, 0.061371434, 0, 0.15, 0, -0.061371434, 0, 0.13687056, -1.0461683, 0.32893223, -0.29877108)
+mesh = SubResource("BoxMesh_n102l")
+
+[node name="MeshInstance3D8" type="MeshInstance3D" parent="." unique_id=1366078548]
+transform = Transform3D(0.13687056, 0, 0.061371434, 0, 0.15, 0, -0.061371434, 0, 0.13687056, -0.8955413, 0.07758391, -0.3515842)
+mesh = SubResource("BoxMesh_n102l")
+
+[node name="MeshInstance3D9" type="MeshInstance3D" parent="." unique_id=1264038192]
+transform = Transform3D(0.13687056, 0, 0.061371434, 0, 0.15, 0, -0.061371434, 0, 0.13687056, -0.68102664, 0.07758391, -0.18384123)
+mesh = SubResource("BoxMesh_n102l")
+
+[node name="MeshInstance3D10" type="MeshInstance3D" parent="." unique_id=803400134]
+transform = Transform3D(0.13687056, 0, 0.061371434, 0, 0.15, 0, -0.061371434, 0, 0.13687056, -0.7886384, 0.5249577, 0.008287191)
+mesh = SubResource("BoxMesh_n102l")
+
+[node name="MeshInstance3D11" type="MeshInstance3D" parent="." unique_id=659267060]
+transform = Transform3D(0.13687056, 0, 0.061371434, 0, 0.15, 0, -0.061371434, 0, 0.13687056, -0.88851815, 0.47946346, 0.008287191)
 mesh = SubResource("BoxMesh_n102l")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1962915771]
@@ -121,5 +161,11 @@ transform = Transform3D(0.35659462, 0, -0.3504857, 0, 0.5, 0, 0.3504857, 0, 0.35
 mesh = SubResource("CylinderMesh_884rh")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1512596538]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.25, 0)
 mesh = SubResource("BoxMesh_hxmse")
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=1600632674]
+transform = Transform3D(0.83651626, 0.2888486, 0.46562532, -0.5, 0.75, 0.4330127, -0.22414386, -0.59503484, 0.7718115, 4, 3, 5)
+light_color = Color(1, 0.76862746, 0.7882353, 1)
+light_energy = 2.006
+shadow_enabled = true
