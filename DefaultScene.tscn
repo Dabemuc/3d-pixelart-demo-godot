@@ -1,0 +1,52 @@
+[gd_scene format=3 uid="uid://dfxrbd0lnsitc"]
+
+[sub_resource type="Environment" id="Environment_3lo20"]
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_n102l"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_3lo20"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_n102l"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="BoxMesh" id="BoxMesh_hxmse"]
+size = Vector3(60, 2, 60)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3lo20"]
+albedo_color = Color(0.36078432, 1, 1, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_3lo20"]
+material = SubResource("StandardMaterial3D_3lo20")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n102l"]
+albedo_color = Color(1, 0.4392157, 0.34509805, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_n102l"]
+material = SubResource("StandardMaterial3D_n102l")
+
+[node name="Node3D" type="Node3D" unique_id=1416616789]
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=485001622]
+transform = Transform3D(0.9723537, -0.09237599, 0.21446498, 0.01148524, 0.9362341, 0.3511894, -0.23323089, -0.3390171, 0.9114114, -0.14477646, 0.962265, 1.5050781)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=24356344]
+environment = SubResource("Environment_3lo20")
+camera_attributes = SubResource("CameraAttributesPhysical_n102l")
+
+[node name="Ground" type="StaticBody3D" parent="." unique_id=1651478911]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0)
+physics_material_override = SubResource("PhysicsMaterial_3lo20")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground" unique_id=333840573]
+shape = SubResource("BoxShape3D_n102l")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground" unique_id=1512596538]
+mesh = SubResource("BoxMesh_hxmse")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1766389597]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
+mesh = SubResource("SphereMesh_3lo20")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1623906327]
+transform = Transform3D(0.40209964, 0, 0.29717985, 0, 0.5, 0, -0.29717985, 0, 0.40209964, -0.9035357, 0.25, 0.15743566)
+mesh = SubResource("BoxMesh_n102l")
