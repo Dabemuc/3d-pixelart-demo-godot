@@ -25,7 +25,7 @@ needs_normal_roughness = true
 script = ExtResource("1_hxmse")
 metadata/_custom_type_script = "uid://bvsjc7c2u5f"
 
-[sub_resource type="CompositorEffect" id="CompositorEffect_xmalu"]
+[sub_resource type="CompositorEffect" id="CompositorEffect_hxmse"]
 resource_local_to_scene = false
 resource_name = ""
 enabled = true
@@ -33,13 +33,20 @@ effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_hxmse")
+palette = "aap_64"
 metadata/_custom_type_script = "uid://b4wcrn72ist54"
 
 [sub_resource type="Compositor" id="Compositor_xmalu"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_884rh"), SubResource("CompositorEffect_xmalu")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_884rh"), SubResource("CompositorEffect_hxmse")])
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_884rh"]
+albedo_color = Color(0.13333334, 1, 0, 1)
+
+[sub_resource type="TorusMesh" id="TorusMesh_fmr7c"]
+material = SubResource("StandardMaterial3D_884rh")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3lo20"]
-albedo_color = Color(0.36078432, 1, 1, 1)
+albedo_color = Color(0.36078432, 1, 0.9411765, 1)
 
 [sub_resource type="SphereMesh" id="SphereMesh_3lo20"]
 material = SubResource("StandardMaterial3D_3lo20")
@@ -66,9 +73,10 @@ transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545
 shadow_enabled = true
 
 [node name="Camera3D" type="Camera3D" parent="." unique_id=485001622]
-transform = Transform3D(0.8862036, 0.23164803, -0.40122613, 0, 0.8660254, 0.5, 0.46329606, -0.4431018, 0.76747483, -1.016206, 1.3047087, 1.5065117)
+transform = Transform3D(-0.91201997, 0.205073, -0.35519677, 0, 0.8660254, 0.5, 0.41014603, 0.45600998, -0.7898324, -1.016206, 1.3047087, -2.1282196)
 projection = 1
 size = 2.818
+far = 221.74
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=24356344]
 environment = SubResource("Environment_3lo20")
@@ -76,15 +84,19 @@ camera_attributes = SubResource("CameraAttributesPhysical_n102l")
 compositor = SubResource("Compositor_xmalu")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1766389597]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.25, 0)
+transform = Transform3D(0.23600668, -0.22519425, -0.37893057, 0.37442085, 0.32924202, 0.037533008, 0.23261532, -0.3014751, 0.32404158, -0.041616917, 0.1514076, 0.5145204)
+mesh = SubResource("TorusMesh_fmr7c")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="." unique_id=696665367]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0.07666445, 0.25, -0.42237687)
 mesh = SubResource("SphereMesh_3lo20")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=1623906327]
-transform = Transform3D(0.40209964, 0, 0.29717985, 0, 0.5, 0, -0.29717985, 0, 0.40209964, -0.9035357, 0.25, 0.15743566)
+transform = Transform3D(0.40209964, 0, 0.29717985, 0, 0.5, 0, -0.29717985, 0, 0.40209964, -0.9035357, 0.25, 0.005009651)
 mesh = SubResource("BoxMesh_n102l")
 
 [node name="MeshInstance3D4" type="MeshInstance3D" parent="." unique_id=1962915771]
-transform = Transform3D(0.35659462, 0, -0.3504857, 0, 0.5, 0, 0.3504857, 0, 0.35659462, 0.774693, 0.25, 0.15743566)
+transform = Transform3D(0.35659462, 0, -0.3504857, 0, 0.5, 0, 0.3504857, 0, 0.35659462, 0.774693, 0.25, 0.061807394)
 mesh = SubResource("CylinderMesh_884rh")
 
 [node name="MeshInstance3D3" type="MeshInstance3D" parent="." unique_id=1512596538]
