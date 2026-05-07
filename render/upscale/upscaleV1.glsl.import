@@ -1,0 +1,14 @@
+[remap]
+
+importer="glsl"
+type="RDShaderFile"
+uid="uid://batdn0cd02wr3"
+path="res://.godot/imported/upscaleV1.glsl-32e1aee2f6ada9f2d50cb709f0955f0b.res"
+
+[deps]
+
+source_file="res://render/upscale/upscaleV1.glsl"
+dest_files=["res://.godot/imported/upscaleV1.glsl-32e1aee2f6ada9f2d50cb709f0955f0b.res"]
+
+[params]
+

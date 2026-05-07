@@ -1,20 +1,20 @@
 @tool
 extends CompositorEffect
-class_name PixelateV1
+class_name UpscaleV1
 
 var rd := RenderingServer.get_rendering_device()
 var shader: RID
 var pipeline: RID
 
 func _init() -> void:
-	var shader_file := preload("res://render/pixelate/pixelateV1.glsl")
+	var shader_file := preload("res://render/upscale/upscaleV1.glsl")
 	var shader_spirv := shader_file.get_spirv()
 	shader = rd.shader_create_from_spirv(shader_spirv)
 	pipeline = rd.compute_pipeline_create(shader)
 
 func _render_callback(_callback_type: int, render_data: RenderData) -> void:
 	var render_scene_buffers: RenderSceneBuffersRD = render_data.get_render_scene_buffers()
-	var pixel_art_size := PixelArtBuffers.TARGET_SIZE
+	var full_res_size := render_scene_buffers.get_internal_size()
 
 	var full_res_uniform := RDUniform.new()
 	full_res_uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
@@ -28,8 +28,8 @@ func _render_callback(_callback_type: int, render_data: RenderData) -> void:
 
 	var bindings: Array[RDUniform] = [full_res_uniform, pixel_art_uniform]
 	var groups := Vector3i(
-		(pixel_art_size.x - 1) / 8 + 1,
-		(pixel_art_size.y - 1) / 8 + 1,
+		(full_res_size.x - 1) / 8 + 1,
+		(full_res_size.y - 1) / 8 + 1,
 		1
 	)
 	var uniform_set := rd.uniform_set_create(bindings, shader, 0)

@@ -30,7 +30,7 @@ func _notification(what: int) -> void:
 
 func _queue_palette_upload(colors: Array) -> void:
 	var data := PackedByteArray()
-	data.resize(colors.size() * 16)  # vec4 per entry (rgb + padding)
+	data.resize(colors.size() * 16)
 	for i in colors.size():
 		var c: Color = colors[i]
 		data.encode_float(i * 16 + 0,  c.r)
@@ -47,27 +47,29 @@ func _render_callback(_callback_type: int, render_data: RenderData) -> void:
 		palette_buffer = rd.storage_buffer_create(_pending_palette.size(), _pending_palette)
 		_palette_dirty = false
 
-	var render_scene_buffers: RenderSceneBuffersRD = render_data.get_render_scene_buffers()
-	var size := render_scene_buffers.get_internal_size()
+	var pixel_art_size := PixelArtBuffers.TARGET_SIZE
 
 	var push_constants := PackedByteArray()
 	push_constants.resize(16)
 	push_constants.encode_s32(0, Palettes.ALL[palette].size())
 	push_constants.encode_s32(4, 1 if use_lab else 0)
 
-	var color_layer_uniform := RDUniform.new()
-	color_layer_uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
-	color_layer_uniform.binding = 0
-	color_layer_uniform.add_id(render_scene_buffers.get_color_layer(0))
+	var color_uniform := RDUniform.new()
+	color_uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_IMAGE
+	color_uniform.binding = 0
+	color_uniform.add_id(PixelArtBuffers.ensure_color(rd))
 
 	var palette_uniform := RDUniform.new()
 	palette_uniform.uniform_type = RenderingDevice.UNIFORM_TYPE_STORAGE_BUFFER
 	palette_uniform.binding = 1
 	palette_uniform.add_id(palette_buffer)
 
-	var bindings: Array[RDUniform] = [color_layer_uniform, palette_uniform]
-
-	var groups := Vector3i((size.x - 1.0) / 8.0 + 1.0, (size.y - 1.0) / 8.0 + 1.0, 1)
+	var bindings: Array[RDUniform] = [color_uniform, palette_uniform]
+	var groups := Vector3i(
+		(pixel_art_size.x - 1) / 8 + 1,
+		(pixel_art_size.y - 1) / 8 + 1,
+		1
+	)
 	var uniform_set := rd.uniform_set_create(bindings, shader, 0)
 	var compute_list := rd.compute_list_begin()
 

@@ -2,7 +2,8 @@
 
 [ext_resource type="Script" uid="uid://bvsjc7c2u5f" path="res://render/sample_effect/sample_effect.gd" id="1_hxmse"]
 [ext_resource type="Script" uid="uid://cp6aqe56ut45f" path="res://render/quantize/quantizeV1.gd" id="2_hxmse"]
-[ext_resource type="Script" uid="uid://b4wcrn72ist54" path="res://render/pixelate/pixelateV1.gd" id="3_xmalu"]
+[ext_resource type="Script" uid="uid://bals4fpquank2" path="res://render/pixelate/pixelateV0.gd" id="2_xmalu"]
+[ext_resource type="Script" uid="uid://w01nnskp4ys0" path="res://render/upscale/upscaleV1.gd" id="4_884rh"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_n102l"]
 ground_color = Color(0.51198095, 0.65087014, 0.8765375, 1)
@@ -32,9 +33,9 @@ resource_name = ""
 enabled = true
 effect_callback_type = 4
 needs_motion_vectors = false
-needs_normal_roughness = false
-script = ExtResource("2_hxmse")
-metadata/_custom_type_script = "uid://cp6aqe56ut45f"
+needs_normal_roughness = true
+script = ExtResource("2_xmalu")
+metadata/_custom_type_script = "uid://bals4fpquank2"
 
 [sub_resource type="CompositorEffect" id="CompositorEffect_d015g"]
 resource_local_to_scene = false
@@ -43,11 +44,21 @@ enabled = true
 effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
-script = ExtResource("3_xmalu")
-metadata/_custom_type_script = "uid://b4wcrn72ist54"
+script = ExtResource("2_hxmse")
+metadata/_custom_type_script = "uid://cp6aqe56ut45f"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_umi03"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = false
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("4_884rh")
+metadata/_custom_type_script = "uid://w01nnskp4ys0"
 
 [sub_resource type="Compositor" id="Compositor_xmalu"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_884rh"), SubResource("CompositorEffect_fmr7c"), SubResource("CompositorEffect_d015g")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_884rh"), SubResource("CompositorEffect_fmr7c"), SubResource("CompositorEffect_d015g"), SubResource("CompositorEffect_umi03")])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_884rh"]
 albedo_color = Color(0.13333334, 1, 0, 1)
