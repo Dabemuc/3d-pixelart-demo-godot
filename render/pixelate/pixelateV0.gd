@@ -1,6 +1,6 @@
 @tool
 extends CompositorEffect
-class_name Pixelate
+class_name PixelateV0
 
 var rd := RenderingServer.get_rendering_device()
 var shader: RID
@@ -11,7 +11,7 @@ var normal_roughness_sampler: RID
 func _init() -> void:
 	# Request the forward_clustered normal/roughness G-buffer; without this flag it won't exist
 	needs_normal_roughness = true
-	var shader_file := preload("pixelate.glsl")
+	var shader_file := preload("pixelateV0.glsl")
 	# Compile GLSL to SPIR-V at load time, then upload to the GPU driver
 	var shader_spirv := shader_file.get_spirv()
 	shader = rd.shader_create_from_spirv(shader_spirv)

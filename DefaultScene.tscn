@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dfxrbd0lnsitc"]
 
 [ext_resource type="Script" uid="uid://bvsjc7c2u5f" path="res://render/sample_effect/sample_effect.gd" id="1_hxmse"]
-[ext_resource type="Script" uid="uid://bals4fpquank2" path="res://render/pixelate/pixelate.gd" id="2_xmalu"]
+[ext_resource type="Script" uid="uid://bals4fpquank2" path="res://render/pixelate/pixelateV0.gd" id="2_xmalu"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_n102l"]
 ground_color = Color(0.51198095, 0.65087014, 0.8765375, 1)
