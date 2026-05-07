@@ -8,7 +8,7 @@ var pipeline: RID
 var palette_buffer: RID
 
 @export var use_lab: bool = true
-@export_enum("resurrect_8", "resurrect_64", "aap_64", "mushroom", "citrink", "blk_nx64", "db32") var palette: String = "resurrect_8":
+@export_enum("resurrect_8", "resurrect_64", "aap_64", "mushroom", "citrink", "blk_nx64", "db32", "rct2") var palette: String = "resurrect_8":
 	set(v):
 		palette = v
 		_queue_palette_upload(Palettes.ALL[v])

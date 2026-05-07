@@ -20,7 +20,9 @@ bool neighbor_creates_silhouette(float center_depth, ivec2 uv, ivec2 size) {
 	if (uv.x < 0 || uv.x >= size.x || uv.y < 0 || uv.y >= size.y)
 		return false;
 	float neighbor_depth = imageLoad(pixel_art_depth, uv).r;
-	return abs(neighbor_depth - center_depth) > parameters.depth_bias;
+	// Directional check: only darken the closer (foreground) pixel.
+	// In Godot's reversed-Z buffer, closer = higher depth value.
+	return (center_depth - neighbor_depth) > parameters.depth_bias;
 }
 
 bool neighbor_creates_crease(vec3 center_normal, float center_depth, ivec2 uv, ivec2 size) {
@@ -29,7 +31,7 @@ bool neighbor_creates_crease(vec3 center_normal, float center_depth, ivec2 uv, i
 
 	// Skip if the depth difference is too large — that's a silhouette, not a crease
 	float neighbor_depth = imageLoad(pixel_art_depth, uv).r;
-	if (abs(neighbor_depth - center_depth) > parameters.depth_bias * 0.25)
+	if (abs(center_depth - neighbor_depth) > parameters.depth_bias * 0.25)
 		return false;
 
 	vec3 neighbor_normal = imageLoad(pixel_art_normal, uv).rgb;

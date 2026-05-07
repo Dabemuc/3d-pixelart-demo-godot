@@ -6,8 +6,8 @@ var rd := RenderingServer.get_rendering_device()
 var shader: RID
 var pipeline: RID
 
-@export var depth_bias: float = 0.001
-@export_range(0.0, 1.0) var outline_strength: float = 0.8
+@export var depth_bias: float = 0.008
+@export_range(0.0, 1.0) var outline_strength: float = 0.95
 @export var normal_bias: float = 0.3
 @export_range(0.0, 1.0) var crease_strength: float = 0.3
 
