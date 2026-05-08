@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://w01nnskp4ys0" path="res://render/upscale/upscaleV1.gd" id="4_884rh"]
 [ext_resource type="Script" uid="uid://7pnr6e4b3n6v" path="res://render/outline/outlineV1.gd" id="5_fmr7c"]
 [ext_resource type="ArrayMesh" uid="uid://cpletww7lvf0c" path="res://assets/grass/grass2.res" id="6_d015g"]
+[ext_resource type="Script" uid="uid://bfafymj3qp6ta" path="res://render/posterize/posterizeV1.gd" id="6_umi03"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_n102l"]
 mie_color = Color(0.69601583, 0.6969911, 0.96887475, 1)
@@ -51,8 +52,21 @@ effect_callback_type = 4
 needs_motion_vectors = false
 needs_normal_roughness = false
 script = ExtResource("2_hxmse")
+use_lab = false
 palette = "rct2"
 metadata/_custom_type_script = "uid://cp6aqe56ut45f"
+
+[sub_resource type="CompositorEffect" id="CompositorEffect_rc4my"]
+resource_local_to_scene = false
+resource_name = ""
+enabled = true
+effect_callback_type = 4
+needs_motion_vectors = false
+needs_normal_roughness = false
+script = ExtResource("6_umi03")
+value_posterization_count = 32
+value_skip_zero = true
+metadata/_custom_type_script = "uid://bfafymj3qp6ta"
 
 [sub_resource type="CompositorEffect" id="CompositorEffect_7hrhk"]
 resource_local_to_scene = false
@@ -75,7 +89,7 @@ script = ExtResource("4_884rh")
 metadata/_custom_type_script = "uid://w01nnskp4ys0"
 
 [sub_resource type="Compositor" id="Compositor_xmalu"]
-compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_884rh"), SubResource("CompositorEffect_8nkcw"), SubResource("CompositorEffect_d015g"), SubResource("CompositorEffect_7hrhk"), SubResource("CompositorEffect_umi03")])
+compositor_effects = Array[CompositorEffect]([SubResource("CompositorEffect_884rh"), SubResource("CompositorEffect_8nkcw"), SubResource("CompositorEffect_d015g"), SubResource("CompositorEffect_rc4my"), SubResource("CompositorEffect_7hrhk"), SubResource("CompositorEffect_umi03")])
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rc4my"]
 albedo_color = Color(0.053573526, 0.11391518, 0.019984964, 1)
